@@ -47,8 +47,7 @@ function InitialLayout() {
           headerShown: false,
         }}
       />
-    </Stack>
-    <Stack.Screen
+          <Stack.Screen
   name="Test-Result-Analysis"
   options={{
     headerShown: true,
@@ -56,6 +55,7 @@ function InitialLayout() {
     headerRight: () => <LogoutButton />,
   }}
 />
+    </Stack>
   );
 }
 
@@ -67,4 +67,5 @@ export default function RootLayout() {
   );
 
 }
+
 
