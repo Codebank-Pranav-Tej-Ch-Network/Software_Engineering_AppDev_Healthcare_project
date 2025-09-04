@@ -6,12 +6,16 @@ export async function getGeminiAnalysis(symptoms, apiKey) {
     contents: [{ parts: [{ text: prompt }] }]
   };
 
-  const resp = await fetch(`${endpoint}?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-
-  const data = await resp.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer generated.';
+  try {
+    const resp = await fetch(`${endpoint}?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) throw new Error('Network response was not ok');
+    const data = await resp.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer generated.';
+  } catch (e) {
+    return 'Error fetching analysis: ' + e.message;
+  }
 }
