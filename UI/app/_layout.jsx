@@ -48,6 +48,14 @@ function InitialLayout() {
         }}
       />
     </Stack>
+    <Stack.Screen
+  name="TestReportAnalyzer"
+  options={{
+    headerShown: true,
+    title: "Test Report Analyzer",
+    headerRight: () => <LogoutButton />,
+  }}
+/>
   );
 }
 
@@ -57,4 +65,5 @@ export default function RootLayout() {
       <InitialLayout />
     </AuthProvider>
   );
+
 }
