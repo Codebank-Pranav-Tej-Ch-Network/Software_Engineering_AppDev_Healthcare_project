@@ -39,10 +39,11 @@ export default function TestResultAnalysis() {
 }
 
 const styles = StyleSheet.create({
-  container: { maxWidth: 600, margin: 'auto', padding: 24 },
+  container: { flex = 1, maxWidth: 600, alignSelf: 'center', padding: 24 },
   title: { fontSize: 20, marginBottom: 12 },
   input: { width: '100%', marginBottom: 12, backgroundColor: '#fff', borderRadius: 8, padding: 8, borderWidth: 1, borderColor: '#ddd' },
   resultBox: { backgroundColor: '#ffe', borderRadius: 8, marginTop: 24, padding: 16 },
   resultTitle: { color: '#d35400', marginBottom: 12 },
   resultText: { fontSize: 16, lineHeight: 24 },
 });
+
