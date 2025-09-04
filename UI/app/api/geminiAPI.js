@@ -1,9 +1,22 @@
-export async function getGeminiAnalysis(symptoms, apiKey) {
-  const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-  const prompt = `You are a healthcare assistant. Analyze the following symptoms: ${symptoms}. Structure your answer in a good human readable way. Make a basic table showing what deficiencies are there, what excess nutrients are there, and also what kind of symptoms the test reports are pointing towards.`;
+export async function getGeminiImageAnalysis(imageBase64, apiKey) {
+  const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent';
 
   const body = {
-    contents: [{ parts: [{ text: prompt }] }]
+    contents: [
+      {
+        parts: [
+          {
+            text: "You are a healthcare assistant. Analyze this medical test report or prescription image. Explain the findings and give advice in simple terms.",
+          },
+          {
+            inline_data: {
+              mime_type: "image/jpeg",
+              data: imageBase64,
+            }
+          }
+        ]
+      }
+    ]
   };
 
   try {
