@@ -49,7 +49,7 @@ function InitialLayout() {
       />
     </Stack>
     <Stack.Screen
-  name="TestReportAnalyzer"
+  name="Test-Result-Analysis"
   options={{
     headerShown: true,
     title: "Test Report Analyzer",
@@ -67,3 +67,4 @@ export default function RootLayout() {
   );
 
 }
+
