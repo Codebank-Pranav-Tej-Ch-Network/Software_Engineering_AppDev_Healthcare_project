@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { getGeminiAnalysis } from '../app/api/geminiAPI'; // Adjust path if needed
 import { GEMINI_API_KEY } from '@env';
 
-const GEMINI_API_KEY = GEMINI_API_KEY; // Ideally, load from .env/config
-
 export default function TestResultAnalysis() {
   const [report, setReport] = useState('');
   const [result, setResult] = useState('');
@@ -46,3 +44,4 @@ export default function TestResultAnalysis() {
     </div>
   );
 }
+
