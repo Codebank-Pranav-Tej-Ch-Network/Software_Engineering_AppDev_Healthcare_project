@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { getGeminiAnalysis } from '../app/api/geminiAPI'; // Adjust path if needed
+import { View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native';
+import { getGeminiAnalysis } from '../api/geminiAPI';
 import { GEMINI_API_KEY } from '@env';
 
 export default function TestResultAnalysis() {
@@ -15,33 +16,33 @@ export default function TestResultAnalysis() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: 'auto', padding: 24 }}>
-      <h2>Test Report Analyzer (powered by Gemini)</h2>
-      <textarea
+    <View style={styles.container}>
+      <Text style={styles.title}>Test Report Analyzer (powered by Gemini)</Text>
+      <TextInput
         value={report}
-        onChange={e => setReport(e.target.value)}
-        rows={8}
+        onChangeText={setReport}
+        multiline
+        numberOfLines={8}
         placeholder="Paste your medical test report or prescription here..."
-        style={{ width: '100%', marginBottom: 12 }}
+        style={styles.input}
       />
-      <button onClick={handleAnalyze} disabled={loading || !report}>
-        {loading ? 'Analyzing...' : 'Analyze'}
-      </button>
-      {result && (
-        <div
-          style={{
-            background: '#ffe',
-            borderRadius: 8,
-            marginTop: 24,
-            padding: 16,
-            boxShadow: '0 2px 8px rgba(0,0,0,0.10)'
-          }}
-        >
-          <h3 style={{ color: '#d35400', marginBottom: 12 }}>Gemini's Interpretation:</h3>
-          <p style={{ fontSize: 16, lineHeight: 1.6 }}>{result}</p>
-        </div>
+      <Button onPress={handleAnalyze} title={loading ? 'Analyzing...' : 'Analyze'} disabled={loading || !report} />
+      {loading && <ActivityIndicator />}
+      {result !== '' && (
+        <View style={styles.resultBox}>
+          <Text style={styles.resultTitle}>Gemini's Interpretation:</Text>
+          <Text style={styles.resultText}>{result}</Text>
+        </View>
       )}
-    </div>
+    </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: { maxWidth: 600, margin: 'auto', padding: 24 },
+  title: { fontSize: 20, marginBottom: 12 },
+  input: { width: '100%', marginBottom: 12, backgroundColor: '#fff', borderRadius: 8, padding: 8, borderWidth: 1, borderColor: '#ddd' },
+  resultBox: { backgroundColor: '#ffe', borderRadius: 8, marginTop: 24, padding: 16 },
+  resultTitle: { color: '#d35400', marginBottom: 12 },
+  resultText: { fontSize: 16, lineHeight: 24 },
+});
