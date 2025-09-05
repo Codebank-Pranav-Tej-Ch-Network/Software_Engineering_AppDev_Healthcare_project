@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Plank Twist",
+    "description": "A core strengthening twist performed from plank position.",
+    "animation": "plank-twist",
+    "difficulty": "Intermediate",
+    "article_url": "https://fitliferegime.com/plank-rotation/"
+  },
+  {
+    "id": "2",
+    "name": "Dead Bug",
+    "description": "An effective exercise for core stability involving opposite limb movement.",
+    "animation": "dead-bug",
+    "difficulty": "Beginner",
+    "article_url": "https://www.verywellfit.com/how-to-do-the-dead-bug-exercise-4685852"
+  },
+  {
+    "id": "3",
+    "name": "Squat with Rotation",
+    "description": "Combines squatting motion with torso rotation for full body engagement.",
+    "animation": "squat-rotation",
+    "difficulty": "Intermediate",
+    "article_url": "https://fitbod.me/exercises/squat-with-rotation"
+  }
+]
