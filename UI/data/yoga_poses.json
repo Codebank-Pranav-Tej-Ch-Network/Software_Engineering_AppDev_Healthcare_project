@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Padmasan",
+    "animation": "padmasan",
+    "difficulty": "Intermediate",
+    "tags": ["meditation", "seated"],
+    "article_url": "https://www.pocketyoga.com/pose/lotus"
+  },
+  {
+    "id": "2",
+    "name": "Vrukshasan",
+    "animation": "vrukshasan",
+    "difficulty": "Beginner",
+    "tags": ["balance", "standing"],
+    "article_url": "https://www.pocketyoga.com/pose/tree"
+  },
+  {
+    "id": "3",
+    "name": "Bhujangasan",
+    "animation": "bhujangasan",
+    "difficulty": "Beginner",
+    "tags": ["backbend", "lying"],
+    "article_url": "https://www.pocketyoga.com/pose/cobra"
+  }
+]
