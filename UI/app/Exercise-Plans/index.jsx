@@ -195,8 +195,8 @@ export default function YogaExerciseScreen() {
 
 // ====== Styles =======
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f9fafb", paddingTop: 30, paddingHorizontal: 16 },
-  headerAnimation: { height: 120, alignSelf: "center" },
+  container: { flex: 1, backgroundColor: "#f9fafb", paddingHorizontal: 16 },
+  headerAnimation: { height: 30, alignSelf: "center" },
   title: { fontSize: 28, fontWeight: "700", textAlign: "center", marginVertical: 8, color: "#222" },
   searchBox: {
     backgroundColor: "white",
@@ -274,3 +274,4 @@ const styles = StyleSheet.create({
   },
   modalCloseText: { color: "white", fontWeight: "bold" },
 });
+
