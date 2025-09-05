@@ -1,11 +1,560 @@
-import { Text, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  LayoutAnimation,
+  Modal,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  UIManager,
+  View
+} from 'react-native';
+import { getGeminiAPIAnalysis, listAvailableModels } from '../../api/geminiAPI'; // Adjust the path as necessary
 
-const index = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  )
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default index
+const AILabReportInsightsScreen = () => {
+  const [images, setImages] = useState([]);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResults, setAnalysisResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  // Add your Gemini API key here - in production, store this securely
+  const GEMINI_API_KEY = 'AIzaSyDlpf-VNc5ldJ5YSbU1QhRmcUedbbRwWFo'; // Replace with your actual API key
+  // Adding my project ID for Vertex AI
+  const PROJECT_ID = 'geminiapiproject-471207'; // Replace with your actual project ID
+  // Convert image to base64
+    // Debug function to check what's happening
+  const debugLog = (message, data = null) => {
+    console.log(`DEBUG: ${message}`, data || '');
+  };
+  const convertImageToBase64 = async (imageUri) => {
+    try {
+      const response = await fetch(imageUri);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64data = reader.result.split(',')[1];
+          resolve(base64data);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error('Error converting image to base64:', error);
+      throw error;
+    }
+  };
+
+  const pickImages = async (shouldAppend = false) => {
+     debugLog('pickImages function called');
+  // 1. Request permission first
+  let permissionResult = await ImagePicker.getMediaLibraryPermissionsAsync();
+
+  if (permissionResult.granted == false) {
+    Alert.alert("Permission Required", "You need to allow access to your photos to upload reports.");
+    return;
+  }
+
+  // 2. Launch the image library only if permission is granted
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsMultipleSelection: true,
+    quality: 1,
+  });
+  debugLog('ImagePicker result:', result);
+
+  // 3. This is the only 'if' block you need after getting the result
+  if (!result.canceled) {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    if (shouldAppend) {
+      setImages(currentImages => [...currentImages, ...result.assets]);
+    } else {
+      setImages(result.assets);
+      setAnalysisResults([]); // Clear previous results when selecting new images
+      setShowResults(false);
+    }
+  }
+};
+
+  const handleReset = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setImages([]);
+    setAnalysisResults([]);
+    setShowResults(false);
+  };
+
+  const handleSummarize = async () => {
+    if (images.length === 0) {
+      Alert.alert("No Images", "Please select lab report images first.");
+      return;
+    }
+
+    if (!GEMINI_API_KEY || !PROJECT_ID) {
+      Alert.alert("API Key Missing", "Please add your Gemini API key to use this feature.");
+      return;
+    }
+
+    setIsAnalyzing(true);
+    const results = [];
+
+    try {
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        try {
+          // Convert image to base64
+          const base64Image = await convertImageToBase64(image.uri);
+          
+          // Get analysis from Gemini API
+          const analysis = await getGeminiAPIAnalysis(base64Image, GEMINI_API_KEY);
+
+          await listAvailableModels(GEMINI_API_KEY); // For debugging purposes
+          
+          results.push({
+            imageUri: image.uri,
+            analysis: analysis,
+            imageIndex: i + 1
+          });
+        } catch (error) {
+          console.error(`Error analyzing image ${i + 1}:`, error);
+          results.push({
+            imageUri: image.uri,
+            analysis: `Error analyzing image ${i + 1}: ${error.message}`,
+            imageIndex: i + 1,
+            isError: true
+          });
+        }
+      }
+
+      setAnalysisResults(results);
+      setShowResults(true);
+    } catch (error) {
+      Alert.alert("Analysis Error", "An error occurred while analyzing your images. Please try again.");
+      console.error('Analysis error:', error);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const renderUploadPrompt = () => (
+    <View style={styles.uploadBox}>
+      <Ionicons name="cloud-upload-outline" size={80} color="#20222cff" />
+      <Text style={styles.uploadBoxTitle}>Upload Your Report</Text>
+      <Text style={styles.uploadBoxText}>Select one or more images to get started</Text>
+      <TouchableOpacity onPress={() => pickImages(false)}>
+        <LinearGradient
+          colors={['#4f46e5', '#818cf8']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradientButton}
+        >
+          <Ionicons name="image-outline" size={20} color="white" />
+          <Text style={styles.gradientButtonText}>Select Image(s)</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderImagePreview = () => (
+    <View style={styles.previewContainer}>
+      <Text style={styles.previewTitle}>Selected Reports ({images.length})</Text>
+      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        <View style={styles.imageList}>
+          {images.map((image, index) => (
+            <View key={index} style={styles.thumbnailContainer}>
+              <Image source={{ uri: image.uri }} style={styles.thumbnail} />
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+
+  const renderAnalysisResults = () => (
+    <Modal
+      visible={showResults}
+      animationType="slide"
+      presentationStyle="pageSheet"
+      onRequestClose={() => setShowResults(false)}
+    >
+      <SafeAreaView style={styles.modalContainer}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalTitle}>Analysis Results</Text>
+          <TouchableOpacity 
+            onPress={() => setShowResults(false)}
+            style={styles.closeButton}
+          >
+            <Ionicons name="close" size={24} color="#64748B" />
+          </TouchableOpacity>
+        </View>
+        
+        <ScrollView style={styles.resultsScrollView}>
+          {analysisResults.map((result, index) => (
+            <View key={index} style={styles.resultCard}>
+              <View style={styles.resultHeader}>
+                <Image source={{ uri: result.imageUri }} style={styles.resultThumbnail} />
+                <Text style={styles.resultTitle}>Report {result.imageIndex}</Text>
+              </View>
+              
+              <ScrollView style={styles.analysisTextContainer}>
+                <Text style={[
+                  styles.analysisText,
+                  result.isError && styles.errorText
+                ]}>
+                  {result.analysis}
+                </Text>
+              </ScrollView>
+            </View>
+          ))}
+        </ScrollView>
+        
+        <View style={styles.modalFooter}>
+          <TouchableOpacity 
+            onPress={() => {
+              setShowResults(false);
+              handleReset();
+            }}
+            style={styles.newAnalysisButton}
+          >
+            <LinearGradient
+              colors={['#4f46e5', '#818cf8']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.gradientButton}
+            >
+              <Ionicons name="add-outline" size={20} color="white" />
+              <Text style={styles.gradientButtonText}>New Analysis</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </Modal>
+  );
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>AI Lab Report Insights</Text>
+          <Text style={styles.subtitle}>Get a simplified summary and explanation of your lab results.</Text>
+        </View>
+
+        <View style={images.length === 0 ? styles.emptyContent : styles.filledContent}>
+          {images.length === 0 ? renderUploadPrompt() : renderImagePreview()}
+        </View>
+        
+        {images.length > 0 && (
+          <View style={styles.footer}>
+            <TouchableOpacity onPress={() => pickImages(true)} style={styles.addMoreButton}>
+              <Ionicons name="add-circle-outline" size={22} color="#4f46e5" />
+              <Text style={styles.addMoreButtonText}>Add More Images</Text>
+            </TouchableOpacity>
+
+            <View style={styles.bottomActionsContainer}>
+              <TouchableOpacity onPress={handleReset}>
+                <LinearGradient
+                  colors={['#ef4444', '#f87171']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.gradientButton}
+                >
+                  <Ionicons name="reload-outline" size={20} color="white" />
+                  <Text style={styles.gradientButtonText}>Reset</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+              
+              <TouchableOpacity onPress={handleSummarize} disabled={isAnalyzing}>
+                <LinearGradient
+                  colors={isAnalyzing ? ['#9ca3af', '#d1d5db'] : ['#34d399', '#6ee7b7']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.gradientButton}
+                >
+                  {isAnalyzing ? (
+                    <ActivityIndicator size="small" color="white" />
+                  ) : (
+                    <Ionicons name="analytics-outline" size={20} color="white" />
+                  )}
+                  <Text style={styles.gradientButtonText}>
+                    {isAnalyzing ? 'Analyzing...' : 'Summarize'}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {/* Loading overlay */}
+        {isAnalyzing && (
+          <View style={styles.loadingOverlay}>
+            <View style={styles.loadingContent}>
+              <ActivityIndicator size="large" color="#4f46e5" />
+              <Text style={styles.loadingText}>Analyzing your reports...</Text>
+              <Text style={styles.loadingSubtext}>This may take a few moments</Text>
+            </View>
+          </View>
+        )}
+
+        {renderAnalysisResults()}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#eef2ff',
+  },
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#312e81',
+  },
+  subtitle: {
+    fontSize: 15,
+    color: '#64748B',
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  emptyContent: {
+    flex: 1,
+    justifyContent: 'start',
+    marginTop: 100,
+  },
+  filledContent: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  uploadBox: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 30,
+    alignItems: 'center',
+    shadowColor: "#4f46e5",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 5,
+  },
+  uploadBoxTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#312e81',
+    marginTop: 16,
+  },
+  uploadBoxText: {
+    color: '#64748B',
+    marginTop: 8,
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  gradientButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  gradientButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  previewContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingTop: 20,
+    shadowColor: "#e0e7ff",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  previewTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#312e81',
+    marginLeft: 10,
+    marginBottom: 10,
+  },
+  imageList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  thumbnailContainer: {
+    width: '33.33%',
+    padding: 5,
+  },
+  thumbnail: {
+    width: '100%',
+    height: 110,
+    borderRadius: 12,
+  },
+  footer: {
+    paddingTop: 10,
+    marginBottom: 10,
+  },
+  addMoreButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: '#e0e7ff',
+    borderWidth: 1.5,
+    borderColor: '#c7d2fe',
+    marginBottom: 20,
+  },
+  addMoreButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#4338ca',
+    marginLeft: 8,
+  },
+  bottomActionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingBottom: 15,
+  },
+  // Loading overlay styles
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  loadingContent: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 30,
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#312e81',
+    marginTop: 15,
+  },
+  loadingSubtext: {
+    fontSize: 14,
+    color: '#64748B',
+    marginTop: 5,
+  },
+  // Modal styles
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
+    backgroundColor: 'white',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#312e81',
+  },
+  closeButton: {
+    padding: 5,
+  },
+  resultsScrollView: {
+    flex: 1,
+    padding: 20,
+  },
+  resultCard: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  resultHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  resultThumbnail: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+    marginRight: 15,
+  },
+  resultTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#312e81',
+  },
+  analysisTextContainer: {
+    maxHeight: 200,
+  },
+  analysisText: {
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#475569',
+  },
+  errorText: {
+    color: '#dc2626',
+    fontStyle: 'italic',
+  },
+  modalFooter: {
+    padding: 20,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+  },
+  newAnalysisButton: {
+    width: '100%',
+  },
+});
+
+export default AILabReportInsightsScreen;
