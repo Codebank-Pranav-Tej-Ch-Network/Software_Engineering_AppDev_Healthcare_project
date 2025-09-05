@@ -3,8 +3,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Stack, useRouter } from 'expo-router';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -22,6 +22,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// Updated import path to get auth and db from the new file
 import { auth, db } from '../../firebase';
 
 const AuthToggle = ({ activeScreen }) => {
@@ -47,6 +48,7 @@ const AuthToggle = ({ activeScreen }) => {
 export default function SignUpScreen() {
   const insets = useSafeAreaInsets();
   const scrollRef = useRef(null);
+  const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -184,9 +186,18 @@ export default function SignUpScreen() {
 
     setLoading(true);
     try {
+      // 1) Create the Auth user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const createdUser = userCredential.user;
 
+      // 2) Optionally update the Firebase Auth profile displayName
+      try {
+        await updateProfile(createdUser, { displayName: name.trim() });
+      } catch (upErr) {
+        console.warn('updateProfile failed (not fatal):', upErr);
+      }
+
+      // 3) Prepare profile data and save into Firestore under users/{uid}
       const profileData = {
         name: name.trim(),
         dob,
@@ -194,16 +205,19 @@ export default function SignUpScreen() {
         gender,
         location: location.trim(),
         contact,
-        email,
-        createdAt: new Date().toISOString(),
+        email: email.trim().toLowerCase(),
+        createdAt: serverTimestamp(),
       };
 
-      const docRef = doc(db, `users/${user.uid}/profile`, 'data');
-      await setDoc(docRef, profileData);
+      const userDocRef = doc(db, 'users', createdUser.uid);
+      await setDoc(userDocRef, profileData);
 
+      // 4) Success feedback + redirect to main app
       Alert.alert('Success', 'Account created successfully.');
+      router.replace('/'); // go to app root / home
     } catch (error) {
-      Alert.alert('Sign Up Failed', error.message);
+      console.error('Sign up failed:', error);
+      Alert.alert('Sign Up Failed', error.message || String(error));
     } finally {
       setLoading(false);
     }
@@ -215,7 +229,7 @@ export default function SignUpScreen() {
   };
 
   const onDateChange = (event, selectedDate) => {
-    setShowDatePicker(Platform.OS === 'ios'); // keep for iOS, hide for Android after selection
+    setShowDatePicker(Platform.OS === 'ios');
     if (selectedDate) {
       setDobDateObj(selectedDate);
       const dd = String(selectedDate.getDate()).padStart(2, '0');
@@ -276,29 +290,28 @@ export default function SignUpScreen() {
                 {!!errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
               </View>
 
-             {/* Date of Birth (picker) */}
-<View>
-  <TouchableOpacity onPress={openDatePicker} activeOpacity={0.8}>
-    <View style={styles.inputContainer}>
-      <Ionicons name="calendar-outline" size={20} color="#9e9e9e" style={styles.inputIcon} />
-      {/* use dobText so the label is vertically centered */}
-      <Text style={[styles.dobText, !dob ? styles.placeholderText : null]}>
-        {dob || 'Select Date of Birth'}
-      </Text>
-    </View>
-  </TouchableOpacity>
-  {!!errors.dob && <Text style={styles.errorText}>{errors.dob}</Text>}
-  {showDatePicker && (
-    <DateTimePicker
-      value={dobDateObj || new Date(2000, 0, 1)}
-      mode="date"
-      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-      onChange={onDateChange}
-      maximumDate={new Date()}
-    />
-  )}
-</View>
-
+              {/* Date of Birth (picker) */}
+              <View>
+                <TouchableOpacity onPress={openDatePicker} activeOpacity={0.8}>
+                  <View style={styles.inputContainer}>
+                    <Ionicons name="calendar-outline" size={20} color="#9e9e9e" style={styles.inputIcon} />
+                    {/* use dobText so the label is vertically centered */}
+                    <Text style={[styles.dobText, !dob ? styles.placeholderText : null]}>
+                      {dob || 'Select Date of Birth'}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                {!!errors.dob && <Text style={styles.errorText}>{errors.dob}</Text>}
+                {showDatePicker && (
+                  <DateTimePicker
+                    value={dobDateObj || new Date(2000, 0, 1)}
+                    mode="date"
+                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                    onChange={onDateChange}
+                    maximumDate={new Date()}
+                  />
+                )}
+              </View>
 
               {/* Blood Group (picker) */}
               <View>
@@ -532,12 +545,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   dobText: {
-  flex: 1,
-  alignSelf: 'center',        // vertical center inside inputContainer
-  color: '#fff',
-  fontSize: 16,
-  // Android: ensure vertical centering in some cases
-  textAlignVertical: 'center',
-},
-
+    flex: 1,
+    alignSelf: 'center',
+    color: '#fff',
+    fontSize: 16,
+    // Android: ensure vertical centering in some cases
+    textAlignVertical: 'center',
+  },
 });
