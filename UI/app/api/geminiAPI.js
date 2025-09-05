@@ -1,6 +1,6 @@
 export async function getGeminiImageAnalysis(imageBase64, apiKey) {
   // Use the correct endpoint for multimodal Gemini 1.5 Pro 002
-  const endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro-002:generateContent';
+  const endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-pro:generateContent';
 
   const body = {
     contents: [
