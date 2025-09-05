@@ -10,7 +10,7 @@ export async function getGeminiAPIAnalysis(imageBase64, apiKey) {
       {
         parts: [
           {
-            text: "You are a healthcare assistant. Analyze this medical test report or prescription image. Explain the findings and give advice in simple terms. Also, based on the threats, exactly tell what kind of doctor to consult. Also, apart from Allopathy, include alternate insights into what kind of alternative treatment could be done using Ayurvedic and Naturopathic procedures and also explicitly mention which kind of specialists to consult. Keep the response concise and easy to understand. Put very good styling in your response, nice Headings in bold and underlined and also leave lines between each heading.",
+            text: "You are a healthcare assistant. Analyze this medical test report or prescription image. Explain the findings and give advice in simple terms. Also, based on the threats, exactly tell what kind of doctor to consult. Keep the response concise and easy to understand.",
           },
           {
             inline_data: {
