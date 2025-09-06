@@ -126,8 +126,8 @@ You can also open issues with the tag "enhancement."
 Distributed under the MIT License. See LICENSE for more information.
 
 ## Contact  
-Project Maintainer - Your Name - [your.email@example.com](mailto:your.email@example.com)  
-Project Link: https://github.com/your-username/MyHealth
+Project Maintainer - Your Name - [pranavtej.9.1a@gmail.com](mailto:pranavtej.9.1a@gmail.com)  
+Project Link: https://github.com/Codebank-Pranav-Tej-Ch-Network/Software_Engineering_AppDev_Healthcare_project
 
 ## Contributors  
 
