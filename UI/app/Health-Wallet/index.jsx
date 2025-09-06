@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Stack } from "expo-router";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, getFirestore, onSnapshot, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AddRecordModal from "../../components/AddRecordModal";
 import ViewRecordModal from "../../components/ViewRecordModal";
 
@@ -60,6 +60,33 @@ const HealthWalletScreen = () => {
     }
   };
 
+  // ❌ Delete record from Firestore
+  const handleDeleteRecord = (recordId) => {
+    Alert.alert(
+      "Delete Record",
+      "Are you sure you want to delete this record? This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteDoc(doc(db, "records", recordId));
+              // The onSnapshot will automatically update the list
+            } catch (e) {
+              console.error("Error deleting record:", e);
+              alert("Failed to delete record. Please try again.");
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const handleViewRecord = (record) => {
     setSelectedRecord(record);
     setViewModalVisible(true);
@@ -80,9 +107,14 @@ const HealthWalletScreen = () => {
         </Text>
         <Text style={styles.recordDetails}>Issuer: {item.issuer}</Text>
       </View>
-      <TouchableOpacity style={styles.viewButton} onPress={() => handleViewRecord(item)}>
-        <Text style={styles.viewButtonText}>View</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.viewButton} onPress={() => handleViewRecord(item)}>
+          <Text style={styles.viewButtonText}>View</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteRecord(item.id)}>
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -236,13 +268,28 @@ const styles = StyleSheet.create({
     color: "#64748B",
     marginTop: 4,
   },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   viewButton: {
     backgroundColor: "#10B981",
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 6,
+    marginRight: 10,
   },
   viewButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  deleteButton: {
+    backgroundColor: "#EF4444",
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+  },
+  deleteButtonText: {
     color: "white",
     fontWeight: "bold",
   },
