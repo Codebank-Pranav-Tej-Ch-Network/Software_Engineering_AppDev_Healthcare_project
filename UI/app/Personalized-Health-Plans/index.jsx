@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Stack } from 'expo-router';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -196,6 +197,14 @@ const AILabReportInsightsScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+       <Stack.Screen
+              name="Personalized-Health-Plans"
+              options={{
+                headerShown: true,
+                title: "AI Lab Report Insights",
+        
+              }}
+            />
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>AI Lab Report Insights</Text>
