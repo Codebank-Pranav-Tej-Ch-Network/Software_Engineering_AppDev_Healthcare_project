@@ -1,5 +1,6 @@
 import LottieView from "lottie-react-native";
 import { useState } from "react";
+import { Stack } from "expo-router";
 import {
   Dimensions,
   Linking,
@@ -86,6 +87,14 @@ export default function YogaExerciseScreen() {
 
   return (
     <View style={styles.container}>
+       <Stack.Screen
+        name="Exercise-Plans"
+        options={{
+          headerShown: true,
+          title: "Exercise Plans",
+
+        }}
+      />
       {/* Header animation */}
       <LottieView
         source={animationSources["yoga-header"]}
@@ -274,4 +283,3 @@ const styles = StyleSheet.create({
   },
   modalCloseText: { color: "white", fontWeight: "bold" },
 });
-
