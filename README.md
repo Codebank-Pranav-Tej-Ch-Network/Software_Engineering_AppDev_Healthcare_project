@@ -85,6 +85,27 @@ This project is built using a modern, scalable, and cross-platform technology st
 ![AIML Test Report Analyzer 3](https://github.com/user-attachments/assets/aa079cf5-0dcd-4a59-a374-1256cd8961a8)  
 ![AIML Test Report Analyzer 4](https://github.com/user-attachments/assets/52b50c9e-49b8-4b51-a080-4a26b79e5064)  
 
+### Augmented Reality (AR) App  
+The AR app enables users to search for medicines, diseases, or surgical procedures and displays related organs in AR mode. The project plans to add animated organ models and expand beyond the current heart and lung models.
+
+| AR App Features                            |
+|-------------------------------------------|
+| Search bar for medicines, diseases, procedures |
+| Static 3D models (heart & lung)            |
+| Planned dynamic animations for organs      |
+| Plans to add additional organ models       |
+
+#### AR App Screenshots
+
+**Search Interface & AR Display**  
+![AR Search and Display 1](https://github.com/user-attachments/assets/a8eb418e-b8c9-4466-b18c-2fdb4447be7d)  
+![AR Search and Display 2](https://github.com/user-attachments/assets/7598a764-6ac7-4d91-9595-47462b406f88)  
+
+**AR Model Close-Ups**  
+![AR Model View 1](https://github.com/user-attachments/assets/f65f23e6-eeb3-4718-b243-07c5de083faa)  
+![AR Model View 2](https://github.com/user-attachments/assets/7b8f523a-a7f9-4ecb-a01b-04e0ad470e68)  
+![AR Model View 3](https://github.com/user-attachments/assets/184a2474-27de-4c7e-9cd8-a46ce13ddedb)  
+
 ## Getting Started  
 To get a local copy up and running, follow these steps.
 
