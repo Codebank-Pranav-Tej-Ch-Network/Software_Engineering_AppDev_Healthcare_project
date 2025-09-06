@@ -8,7 +8,7 @@ MyHealth is a comprehensive mobile solution designed to address key challenges i
 - About The Project  
 - Key Features  
 - Tech Stack  
-- Screenshots (Placeholder)  
+- Screenshots  
 - Getting Started  
 - Prerequisites  
 - Installation  
@@ -27,22 +27,14 @@ In line with the United Nations' Sustainable Development Goal 3 (SDG 3): Good He
 
 ## Key Features  
 MyHealth comes packed with a range of features designed to cater to all aspects of a user's health journey:  
-- **Seamless Authentication**  
-  Secure and easy-to-use login and sign-up flow powered by Firebase Authentication.  
-- **Personalized User Profiles**  
-  A dedicated space for users to manage their personal information and preferences.  
-- **Healthset Wallet**  
-  A safe digital wallet to upload, store, and manage images of medical documents like lab reports, test results, and prescriptions. Never lose a report again!  
-- **Blood Donation Platform**  
-  A community-driven feature where users can register as willing blood donors. Those in need can easily view a list of potential donors nearby, bridging critical gaps in emergencies.  
-- **Intelligent Medication Reminders**  
-  A simple yet powerful reminder system to help users manage their medication schedules effectively with timely notifications.  
-- **Guided Diet & Exercise Plans**  
-  An engaging list of animated cards showcasing various yoga poses and exercises with links to trusted external resources for detailed guidance.  
-- **Hyperlocal Medical Waste Reduction**  
-  A peer-to-peer platform where users can list and sell medicines nearing expiry at custom prices, promoting the recycling of safe, unused medication and reducing waste.  
-- **AI-Powered Health Analysis**  
-  Utilizing Google’s Gemini API, users upload test report images which are analyzed by AI/ML to provide simplified summaries, highlight potential symptoms, and suggest specialist consultations (e.g., Cardiologist, Endocrinologist).  
+- **Seamless Authentication:** Secure and easy-to-use login and sign-up flow powered by Firebase Authentication.  
+- **Personalized User Profiles:** A dedicated space for users to manage their personal information and preferences.  
+- **Healthset Wallet:** A secure digital wallet to upload, store, and manage images of medical documents like lab reports, test results, and prescriptions. Never lose a report again!  
+- **Blood Donation Platform:** A community-driven feature where users can register as willing blood donors. Those in need can easily view a list of potential donors nearby, bridging critical gaps in emergencies.  
+- **Intelligent Medication Reminders:** A simple yet powerful reminder system to help users manage their medication schedules effectively with timely notifications.  
+- **Guided Diet & Exercise Plans:** An engaging list of animated cards showcasing various yoga poses and exercises with links to trusted external resources for detailed guidance.  
+- **Hyperlocal Medical Waste Reduction:** A peer-to-peer platform where users can list and sell medicines nearing expiry at custom prices, promoting the recycling of safe, unused medication and reducing waste.  
+- **AI-Powered Health Analysis:** Utilizing Google’s Gemini API, users upload test report images which are analyzed by AI/ML to provide simplified summaries, highlight potential symptoms, and suggest specialist consultations (e.g., Cardiologist, Endocrinologist).  
 
 ## Tech Stack  
 This project is built using a modern, scalable, and cross-platform technology stack:  
@@ -56,48 +48,42 @@ This project is built using a modern, scalable, and cross-platform technology st
 | UI/UX              | React Native Paper / Custom Components|  
 
 ## Screenshots  
-(Add your app screenshots here to give users a visual feel of the application.)  
--Signup Screen 
-![IMG-20250907-WA0008](https://github.com/user-attachments/assets/d6860fd8-acc4-4f42-ac73-779cdeaeff06)
 
-- Login Screen
-![IMG-20250907-WA0002](https://github.com/user-attachments/assets/f7161b70-aa8c-47fc-a28f-a386bd4d61e9)
+### Signup Screen  
+![Signup Screen](https://github.com/user-attachments/assets/d6860fd8-acc4-4f42-ac73-779cdeaeff06)  
 
-- Dashboard
-![IMG-20250907-WA0005](https://github.com/user-attachments/assets/89247c97-992b-4083-a8cf-ffadedce6f63)
+### Login Screen  
+![Login Screen](https://github.com/user-attachments/assets/f7161b70-aa8c-47fc-a28f-a386bd4d61e9)  
 
-- Profile
-![IMG-20250907-WA0004](https://github.com/user-attachments/assets/f6c1f660-3163-40ae-b2a8-0f3565d4b790)
+### Dashboard  
+![Dashboard](https://github.com/user-attachments/assets/89247c97-992b-4083-a8cf-ffadedce6f63)  
 
-- Blood Donation
-![IMG-20250907-WA0006](https://github.com/user-attachments/assets/32a6b943-dc49-412a-a47a-0ec56ad7af72)
+### Profile  
+![Profile](https://github.com/user-attachments/assets/f6c1f660-3163-40ae-b2a8-0f3565d4b790)  
 
-- Medication Reminders
-![IMG-20250907-WA0007](https://github.com/user-attachments/assets/8a0dcbfb-397e-4845-994b-1e04507d7db5)
+### Blood Donation  
+![Blood Donation](https://github.com/user-attachments/assets/32a6b943-dc49-412a-a47a-0ec56ad7af72)  
 
-- Healthset Wallet
-![IMG-20250907-WA0009](https://github.com/user-attachments/assets/3921e4b0-1de9-4938-ad25-9c34b2566aa5)
+### Medication Reminders  
+![Medication Reminders](https://github.com/user-attachments/assets/8a0dcbfb-397e-4845-994b-1e04507d7db5)  
 
-- Exercise & Yoga plans
-![IMG-20250907-WA0010](https://github.com/user-attachments/assets/57219a3f-cc83-49ee-92a5-0d079f7abedb)
+### Healthset Wallet  
+![Healthset Wallet](https://github.com/user-attachments/assets/3921e4b0-1de9-4938-ad25-9c34b2566aa5)  
 
-![IMG-20250907-WA0017](https://github.com/user-attachments/assets/16033d70-2a21-457d-b5ed-375fc45d3035)
+### Exercise & Yoga Plans  
+![Exercise & Yoga Plans 1](https://github.com/user-attachments/assets/57219a3f-cc83-49ee-92a5-0d079f7abedb)  
+![Exercise & Yoga Plans 2](https://github.com/user-attachments/assets/16033d70-2a21-457d-b5ed-375fc45d3035)  
 
-- Hyperlocal Medical Waste Reduction Platform
-![IMG-20250907-WA0011](https://github.com/user-attachments/assets/35235d17-3ff8-4de9-8427-8161b4097d4e)
+### Hyperlocal Medical Waste Reduction Platform  
+![Medical Waste Reduction 1](https://github.com/user-attachments/assets/35235d17-3ff8-4de9-8427-8161b4097d4e)  
+![Medical Waste Reduction 2](https://github.com/user-attachments/assets/c58d2b93-858b-411d-b091-b21394a6e81e)  
+![Medical Waste Reduction 3](https://github.com/user-attachments/assets/759b3715-0504-4a7e-b830-a77463a65024)  
 
-![IMG-20250907-WA0015](https://github.com/user-attachments/assets/c58d2b93-858b-411d-b091-b21394a6e81e)
-
-![IMG-20250907-WA0018](https://github.com/user-attachments/assets/759b3715-0504-4a7e-b830-a77463a65024)
-
-- AIML Test Report Analyzer
-![IMG-20250907-WA0014](https://github.com/user-attachments/assets/7b4b1045-8ffd-4fd5-a92a-6d314a954078)
-  
-![IMG-20250907-WA0016](https://github.com/user-attachments/assets/c8fa3e85-4e3d-4b04-8bf5-a0789824c52f)
-
-![IMG-20250907-WA0012](https://github.com/user-attachments/assets/aa079cf5-0dcd-4a59-a374-1256cd8961a8)
-
-![IMG-20250907-WA0013](https://github.com/user-attachments/assets/52b50c9e-49b8-4b51-a080-4a26b79e5064)
+### AIML Test Report Analyzer  
+![AIML Test Report Analyzer 1](https://github.com/user-attachments/assets/7b4b1045-8ffd-4fd5-a92a-6d314a954078)  
+![AIML Test Report Analyzer 2](https://github.com/user-attachments/assets/c8fa3e85-4e3d-4b04-8bf5-a0789824c52f)  
+![AIML Test Report Analyzer 3](https://github.com/user-attachments/assets/aa079cf5-0dcd-4a59-a374-1256cd8961a8)  
+![AIML Test Report Analyzer 4](https://github.com/user-attachments/assets/52b50c9e-49b8-4b51-a080-4a26b79e5064)  
 
 ## Getting Started  
 To get a local copy up and running, follow these steps.
