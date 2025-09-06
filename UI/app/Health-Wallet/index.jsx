@@ -3,7 +3,7 @@ import { Stack } from "expo-router";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AddRecordModal from "../../components/AddRecordModal";
 import ViewRecordModal from "../../components/ViewRecordModal";
 
@@ -14,6 +14,7 @@ const HealthWalletScreen = () => {
   const [isViewModalVisible, setViewModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); // 🔍 New state
 
   const auth = getAuth();
   const db = getFirestore();
@@ -92,11 +93,23 @@ const HealthWalletScreen = () => {
     setViewModalVisible(true);
   };
 
+  // ✅ Apply tab filter + search filter
   const filteredRecords = useMemo(() => {
-    if (activeTab === "All") return records;
-    const filterType = activeTab.slice(0, -1); // Removes 's'
-    return records.filter((record) => record.type.includes(filterType));
-  }, [activeTab, records]);
+    let filtered = records;
+
+    if (activeTab !== "All") {
+      const filterType = activeTab.slice(0, -1); // Removes 's'
+      filtered = filtered.filter((record) => record.type.includes(filterType));
+    }
+
+    if (searchQuery.trim() !== "") {
+      filtered = filtered.filter((record) =>
+        record.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [activeTab, records, searchQuery]);
 
   const renderRecordItem = ({ item }) => (
     <View style={styles.recordItem}>
@@ -151,6 +164,17 @@ const HealthWalletScreen = () => {
         <Tab name="Lab Reports" />
         <Tab name="Vaccinations" />
         <Tab name="Prescriptions" />
+      </View>
+
+      {/* --- Search Bar --- */}
+      <View style={styles.searchContainer}>
+        <Ionicons name="search" size={20} color="#64748B" style={{ marginRight: 8 }} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search by file name..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
       </View>
 
       {/* --- Records List --- */}
@@ -237,6 +261,23 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: "#3B82F6",
     fontWeight: "600",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginHorizontal: 20,
+    marginTop: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#1E293B",
   },
   listContainer: {
     padding: 20,
