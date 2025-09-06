@@ -73,3 +73,66 @@ To get a local copy up and running, follow these steps.
 
 ### Installation  
 Clone the repository:  
+git clone https://github.com/your-username/MyHealth.git
+
+Navigate to the project directory:  
+cd MyHealth
+
+Install dependencies:  
+npm install
+
+or 
+yarn install
+
+Set up environment variables:  
+Create a `.env` file in the root and add your Firebase and Gemini API credentials.  
+
+Firebase Configuration
+FIREBASE_API_KEY="your_firebase_api_key"
+FIREBASE_AUTH_DOMAIN="your_firebase_auth_domain"
+FIREBASE_PROJECT_ID="your_firebase_project_id"
+FIREBASE_STORAGE_BUCKET="your_firebase_storage_bucket"
+FIREBASE_MESSAGING_SENDER_ID="your_firebase_messaging_sender_id"
+FIREBASE_APP_ID="your_firebase_app_id"
+
+Gemini API Key
+GEMINI_API_KEY="your_gemini_api_key"
+
+Start the development server:  
+npm start
+
+or
+npx expo start
+
+Scan the QR code with Expo Go on your phone.
+
+## Usage  
+1. **Sign Up/Login:** Create a new account or log in with your existing credentials.  
+2. **Healthset Wallet:** Upload images of your medical reports securely via the wallet.  
+3. **Blood Donation:** Browse registered donors or register yourself to help in emergencies.  
+4. **Medication Reminders:** Add medications and set schedules for timely alerts.  
+5. **AI Analysis:** Upload lab report images for AI-generated health insights.  
+
+## Contributing  
+Contributions make the open-source community amazing. Any contributions are appreciated.  
+- Fork the project  
+- Create your feature branch (`git checkout -b feature/AmazingFeature`)  
+- Commit your changes (`git commit -m 'Add some AmazingFeature'`)  
+- Push to the branch (`git push origin feature/AmazingFeature`)  
+- Open a pull request  
+You can also open issues with the tag "enhancement."
+
+## License  
+Distributed under the MIT License. See LICENSE for more information.
+
+## Contact  
+Project Maintainer - Your Name - [your.email@example.com](mailto:your.email@example.com)  
+Project Link: https://github.com/your-username/MyHealth
+
+## Contributors  
+
+- **Ch Pranav Tej (Project Manager):** Worked on the AIML test analyzer, Exercise Plans, README file, and helped in final product integration. Also managed project progress by holding daily meetings and maintaining progress reports.  
+- **Nikhil Muvvala (Full Stack Dev):** Developed Medication Reminders, Medicine Recycle, Health Wallet, overall UI, login/signup pages, and Profile page. Managed Firebase integration.  
+- **Hemanth S (Full Stack Dev):** Worked on Blood Donation, Healthset Wallet, UI, Profile page, and Firebase backend.  
+- **Vinay (Backend Dev):** Focused on Firebase setup including OAuth and Firestore. Developed the Medicine Recycle page.  
+- **G Siddhardha (AR Dev):** Fully responsible for the AR app using Unity; managing 3D models, creating AR UI, implemented search bar for medicines, diseases, and procedures; currently supports heart and lung models with plans for animations and more organs in the future.  
