@@ -57,9 +57,47 @@ This project is built using a modern, scalable, and cross-platform technology st
 
 ## Screenshots  
 (Add your app screenshots here to give users a visual feel of the application.)  
-- Login Screen  
-- Healthset Wallet  
-- AI Analysis  
+-Signup Screen 
+![IMG-20250907-WA0008](https://github.com/user-attachments/assets/d6860fd8-acc4-4f42-ac73-779cdeaeff06)
+
+- Login Screen
+![IMG-20250907-WA0002](https://github.com/user-attachments/assets/f7161b70-aa8c-47fc-a28f-a386bd4d61e9)
+
+- Dashboard
+![IMG-20250907-WA0005](https://github.com/user-attachments/assets/89247c97-992b-4083-a8cf-ffadedce6f63)
+
+- Profile
+![IMG-20250907-WA0004](https://github.com/user-attachments/assets/f6c1f660-3163-40ae-b2a8-0f3565d4b790)
+
+- Blood Donation
+![IMG-20250907-WA0006](https://github.com/user-attachments/assets/32a6b943-dc49-412a-a47a-0ec56ad7af72)
+
+- Medication Reminders
+![IMG-20250907-WA0007](https://github.com/user-attachments/assets/8a0dcbfb-397e-4845-994b-1e04507d7db5)
+
+- Healthset Wallet
+![IMG-20250907-WA0009](https://github.com/user-attachments/assets/3921e4b0-1de9-4938-ad25-9c34b2566aa5)
+
+- Exercise & Yoga plans
+![IMG-20250907-WA0010](https://github.com/user-attachments/assets/57219a3f-cc83-49ee-92a5-0d079f7abedb)
+
+![IMG-20250907-WA0017](https://github.com/user-attachments/assets/16033d70-2a21-457d-b5ed-375fc45d3035)
+
+- Hyperlocal Medical Waste Reduction Platform
+![IMG-20250907-WA0011](https://github.com/user-attachments/assets/35235d17-3ff8-4de9-8427-8161b4097d4e)
+
+![IMG-20250907-WA0015](https://github.com/user-attachments/assets/c58d2b93-858b-411d-b091-b21394a6e81e)
+
+![IMG-20250907-WA0018](https://github.com/user-attachments/assets/759b3715-0504-4a7e-b830-a77463a65024)
+
+- AIML Test Report Analyzer
+![IMG-20250907-WA0014](https://github.com/user-attachments/assets/7b4b1045-8ffd-4fd5-a92a-6d314a954078)
+  
+![IMG-20250907-WA0016](https://github.com/user-attachments/assets/c8fa3e85-4e3d-4b04-8bf5-a0789824c52f)
+
+![IMG-20250907-WA0012](https://github.com/user-attachments/assets/aa079cf5-0dcd-4a59-a374-1256cd8961a8)
+
+![IMG-20250907-WA0013](https://github.com/user-attachments/assets/52b50c9e-49b8-4b51-a080-4a26b79e5064)
 
 ## Getting Started  
 To get a local copy up and running, follow these steps.
