@@ -16,6 +16,7 @@ MyHealth is a comprehensive mobile solution designed to address key challenges i
 - Contributing  
 - License  
 - Contact  
+- Contributors
 
 ## About The Project  
 In line with the United Nations' Sustainable Development Goal 3 (SDG 3): Good Health and Well-being, MyHealth aims to provide an accessible, all-in-one platform for health management. Our project addresses this goal through several key pillars:  
