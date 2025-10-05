@@ -176,7 +176,7 @@ Project Link: https://github.com/Codebank-Pranav-Tej-Ch-Network/Software_Enginee
 
 ## Contributors  
 
-- **Ch Pranav Tej (Project Manager):** Worked on the AIML test analyzer, Exercise Plans, README file, and helped in final product integration. Also managed project progress by holding daily meetings and maintaining progress reports.  
+- **Ch Pranav Tej (AIML Dev & Project Manager):** Worked on the AIML test analyzer, Exercise Plans, README file, and helped in final product integration. Also managed project progress by holding daily meetings and maintaining progress reports.  
 - **Nikhil Muvvala (Full Stack Dev):** Developed Medication Reminders, Medicine Recycle, Health Wallet, overall UI, login/signup pages, and Profile page. Managed Firebase integration.  
 - **Hemanth S (Full Stack Dev):** Worked on Blood Donation, Healthset Wallet, UI, Profile page, and Firebase backend.  
 - **Vinay (Backend Dev):** Focused on Firebase setup including OAuth and Firestore. Developed the Medicine Recycle page.  
