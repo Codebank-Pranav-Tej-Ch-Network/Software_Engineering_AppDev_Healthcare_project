@@ -33,7 +33,7 @@ const AILabReportInsightsScreen = () => {
   const [analysisResults, setAnalysisResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
 
-  const GEMINI_API_KEY = 'AIzaSyDlpf-VNc5ldJ5YSbU1QhRmcUedbbRwWFo'; // Replace with your actual API key
+  const GEMINI_API_KEY = 'API_KEY_HERE'; // Replace with your actual API key
   const PROJECT_ID = 'geminiapiproject-471207'; // Replace with your actual project ID
 
   // Native base64 image converter for React Native/Expo
@@ -495,3 +495,4 @@ const styles = StyleSheet.create({
 });
 
 export default AILabReportInsightsScreen;
+
